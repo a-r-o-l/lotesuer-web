@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "resolutions": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.7.4",
     "@hookform/resolvers": "^3.9.1",
