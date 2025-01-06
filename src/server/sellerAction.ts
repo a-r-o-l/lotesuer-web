@@ -31,6 +31,16 @@ export const createSeller = async (data: FormData) => {
   try {
     await dbConnect();
     const formData = Object.fromEntries(data.entries());
+    const existSeller = await models.Seller.findOne({
+      sellerNumber: formData.sellerNumber,
+    });
+    if (existSeller) {
+      return {
+        success: false,
+        message: "El número de vendedor ya existe.",
+        data: null,
+      };
+    }
     const newSeller = new models.Seller({
       sellerNumber: formData.sellerNumber,
       name: formData.name,
@@ -65,6 +75,18 @@ export const updateSeller = async (
   try {
     await dbConnect();
     const formData = Object.fromEntries(data.entries());
+    const existSeller = await models.Seller.findOne({
+      sellerNumber: formData.sellerNumber,
+    });
+    if (existSeller) {
+      if (existSeller.id !== formData.id) {
+        return {
+          success: false,
+          message: "El número de vendedor ya existe.",
+          data: null,
+        };
+      }
+    }
     const seller = await models.Seller.findById(formData.id);
     if (!seller) {
       return {

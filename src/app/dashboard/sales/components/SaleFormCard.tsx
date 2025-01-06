@@ -79,6 +79,7 @@ function SaleFormCard({
   const [date, setDate] = useState(searchParams.get("date") || "");
   const [focusSet, setFocusSet] = useState(false);
   const [alert, setAlert] = useState(initAlert);
+
   const total = useMemo(() => {
     const fieldsToExclude = ["premios", "total", "paga", "saldo"];
     const total = Object.entries(formValues)
@@ -166,6 +167,7 @@ function SaleFormCard({
         loto: priceParserToString(selectedSale?.loto),
         quini6: priceParserToString(selectedSale?.quini6),
         brinco: priceParserToString(selectedSale?.brinco),
+        loto5: priceParserToString(selectedSale?.loto5),
         poceada: priceParserToString(selectedSale?.poceada),
         express: priceParserToString(selectedSale?.express),
         premios: priceParserToString(selectedSale?.premios),
