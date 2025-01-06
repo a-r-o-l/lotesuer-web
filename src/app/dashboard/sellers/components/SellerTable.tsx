@@ -53,7 +53,7 @@ function SellerTable({
                   {seller.sellerNumber}
                 </TableCell>
                 <TableCell className="w-[100px] text-left truncate max-w-[100px]">
-                  {seller.name} asdasdasd asdadsasd
+                  {seller.name}
                 </TableCell>
                 <TableCell className="w-[100px] text-left truncate max-w-[100px]">
                   {seller.lastname}
