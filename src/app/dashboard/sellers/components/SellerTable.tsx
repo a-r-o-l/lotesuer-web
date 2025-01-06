@@ -29,31 +29,48 @@ function SellerTable({
     <div className="relative w-full border rounded-lg">
       <Table>
         <TableHeader className="sticky top-0 z-10 bg-background border-b">
-          <TableRow>
-            <TableHead className="w-[100px]">N° Vendedor</TableHead>
-            <TableHead className="w-[100px]">Nombre</TableHead>
-            <TableHead className="w-[200px]">Apellido</TableHead>
-            <TableHead className="w-[100px]">DNI</TableHead>
-            <TableHead className="w-[100px]">Telefono</TableHead>
-            <TableHead className="w-[100px]">Direccion</TableHead>
-            <TableHead className="w-[100px]">N° Maquina</TableHead>
+          <TableRow className="">
+            <TableHead className="w-[100px] text-left">N° Vendedor</TableHead>
+            <TableHead className="w-[100px] text-left">Nombre</TableHead>
+            <TableHead className="w-[100px] text-left">Apellido</TableHead>
+            <TableHead className="w-[100px] text-left">DNI</TableHead>
+            <TableHead className="w-[100px] text-left">Telefono</TableHead>
+            <TableHead className="w-[100px] text-left">Direccion</TableHead>
+            <TableHead className="w-[100px] text-left">N° Maquina</TableHead>
             <TableHead className="w-[100px] text-right"></TableHead>
           </TableRow>
         </TableHeader>
       </Table>
-      <div className={`overflow-auto`} style={{ maxHeight: windowHeight }}>
+      <div
+        className={`overflow-hidden overflow-y-auto`}
+        style={{ maxHeight: windowHeight }}
+      >
         <Table>
           <TableBody>
             {sellers?.map((seller) => (
               <TableRow key={seller._id}>
-                <TableCell>{seller.sellerNumber}</TableCell>
-                <TableCell>{seller.name}</TableCell>
-                <TableCell>{seller.lastname}</TableCell>
-                <TableCell>{seller.dni}</TableCell>
-                <TableCell>{seller.phone}</TableCell>
-                <TableCell>{seller.address}</TableCell>
-                <TableCell>{seller.machineNumber}</TableCell>
-                <TableCell align="right">
+                <TableCell className="w-[100px] text-left truncate max-w-[100px]">
+                  {seller.sellerNumber}
+                </TableCell>
+                <TableCell className="w-[100px] text-left truncate max-w-[100px]">
+                  {seller.name} asdasdasd asdadsasd
+                </TableCell>
+                <TableCell className="w-[100px] text-left truncate max-w-[100px]">
+                  {seller.lastname}
+                </TableCell>
+                <TableCell className="w-[100px] text-left truncate max-w-[100px]">
+                  {seller.dni}
+                </TableCell>
+                <TableCell className="w-[100px] text-left truncate max-w-[100px]">
+                  {seller.phone}
+                </TableCell>
+                <TableCell className="w-[100px] text-left truncate max-w-[100px]">
+                  {seller.address}
+                </TableCell>
+                <TableCell className="w-[100px] text-left truncate max-w-[100px]">
+                  {seller.machineNumber}
+                </TableCell>
+                <TableCell className="w-[100px] text-right max-w-[100px]">
                   <SellerDropDownMenu
                     seller={seller}
                     onOpenModal={onOpenModal}
