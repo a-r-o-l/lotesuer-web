@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useMemo } from "react";
 import SellerDropDownMenu from "./SellerDropDownMenu";
 import { ISeller } from "@/models/Seller";
 
@@ -21,6 +21,10 @@ function SellerTable({
   onCloseModal: () => void;
   onOpenAlert: (sellerId?: string) => void;
 }) {
+  const windowHeight = useMemo(() => {
+    return Math.floor(window.innerHeight / 2);
+  }, []);
+
   return (
     <div className="relative w-full border rounded-lg">
       <Table>
@@ -37,7 +41,7 @@ function SellerTable({
           </TableRow>
         </TableHeader>
       </Table>
-      <div className="max-h-[400px] overflow-auto">
+      <div className={`overflow-auto`} style={{ maxHeight: windowHeight }}>
         <Table>
           <TableBody>
             {sellers?.map((seller) => (

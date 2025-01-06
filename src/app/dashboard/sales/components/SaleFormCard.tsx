@@ -74,7 +74,6 @@ function SaleFormCard({
   const pagaRef = useRef<HTMLInputElement>(null);
   const searchParams = useSearchParams();
 
-  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [formValues, setFormValues] = useState(initform);
   const [loading, setLoading] = useState(false);
   const [date, setDate] = useState(searchParams.get("date") || "");
@@ -245,22 +244,9 @@ function SaleFormCard({
     }
   }, [editMode, focusSet]);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowHeight(window.innerHeight);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   if (loading || !seller || !date) {
     return (
-      <Card
-        className="flex flex-col flex-1"
-        style={{ height: windowHeight / 2.1 }}
-      >
+      <Card className="flex flex-col flex-1">
         <CardHeader className="w-full flex flex-col gap-2 justify-center items-center">
           <div className="flex items-center gap-3 w-[500px] py-5">
             <CardTitle></CardTitle>
@@ -287,17 +273,17 @@ function SaleFormCard({
   }
 
   return (
-    <Card
-      className="flex flex-col flex-1"
-      // style={{ height: windowHeight / 2.1 }}
-    >
+    <Card className="flex flex-col flex-1">
       <CardHeader className="w-full flex flex-row justify-between items-center">
         <div className="flex items-center gap-3 w-[500px] py-5">
           <Badge variant="secondary" className="text-md w-12 justify-center">
             {seller?.sellerNumber}
           </Badge>
           <h1 className="text-xl text-zinc-600 dark:text-zinc-400">
-            {nameParser(`${seller.lastname} ${seller.name}`, true)}
+            {nameParser(
+              `${seller?.lastname || ""} ${seller?.name || ""}`,
+              true
+            )}
           </h1>
           <CardTitle></CardTitle>
           <CardDescription></CardDescription>
@@ -333,7 +319,7 @@ function SaleFormCard({
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="h-full">
+      <CardContent>
         <form
           className="w-full flex flex-row justify-center mt-10"
           onSubmit={handleSubmit}
@@ -498,8 +484,8 @@ function SaleFormCard({
                 value={balance}
                 readOnly
                 disabled={!editMode}
-                className={`text-white bg-zinc-100 dark:text-black ${
-                  priceParserToInt(balance) < 0 ? "bg-green-400" : "bg-red-500"
+                className={`font-bold text-white bg-zinc-100 dark:text-black ${
+                  priceParserToInt(balance) <= 0 ? "bg-green-400" : "bg-red-500"
                 }`}
               />
             </div>

@@ -10,7 +10,7 @@ export function priceParserToInt(price: string): number {
   if (!price || price === "0.00") {
     return 0;
   } else {
-    return parseInt(price);
+    return parseFloat(price);
   }
 }
 
@@ -23,7 +23,7 @@ export function priceParser(price: string): string {
 }
 
 export function nameParser(name: string, uppercase?: boolean) {
-  if (name) {
+  if (!!name) {
     if (uppercase) {
       return name.toUpperCase();
     } else {
@@ -33,6 +33,6 @@ export function nameParser(name: string, uppercase?: boolean) {
       });
       return parsedName.join(" ");
     }
-    return "";
   }
+  return "";
 }

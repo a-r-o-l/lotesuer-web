@@ -31,6 +31,10 @@ function SalesCard({ sellers, sales }: { sellers: ISeller[]; sales: ISale[] }) {
 
   const [dateQuery, setDateQuery] = useState(searchParams.get("date") || "");
 
+  const windowHeight = useMemo(() => {
+    return Math.floor(window.innerHeight / 1.3);
+  }, []);
+
   const handleSelectSeller = React.useCallback(
     (seller: ISeller) => {
       setSelectedSeller(seller);
@@ -178,7 +182,8 @@ function SalesCard({ sellers, sales }: { sellers: ISeller[]; sales: ISale[] }) {
         </div>
       </CardHeader>
       <CardContent
-        className={`flex flex-row gap-6 ${!dateQuery ? "opacity-30" : ""}`}
+        className={`flex flex-row gap-2 ${!dateQuery ? "opacity-30" : ""}`}
+        style={{ maxHeight: windowHeight }}
       >
         <UserList
           sellers={sellers}

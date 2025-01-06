@@ -10,6 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { nameParser } from "@/lib/utilsFunctions";
 import { ISeller } from "@/models/Seller";
+import { useMemo } from "react";
 function UserList({
   sellers,
   selectedSeller,
@@ -23,16 +24,20 @@ function UserList({
   disabled: boolean;
   setEditMode: (editMode: boolean) => void;
 }) {
+  const windowHeight = useMemo(() => {
+    return Math.floor(window.innerHeight / 1.6);
+  }, []);
+
   return (
-    <Card>
-      <CardHeader>
+    <Card style={{ maxHeight: windowHeight }} className="overflow-y-auto w-72">
+      <CardHeader className="sticky top-0 bg-background z-10 border-b-2 py-5">
         <CardTitle>Vendedores</CardTitle>
         <CardDescription></CardDescription>
       </CardHeader>
-      <CardContent>
-        <ScrollArea>
-          <Table>
-            <TableBody>
+      <CardContent className="w-full py-1 px-0">
+        <ScrollArea className="w-full">
+          <Table className="w-full">
+            <TableBody className="w-full">
               {sellers?.map((seller) => (
                 <TableRow
                   key={seller._id}
