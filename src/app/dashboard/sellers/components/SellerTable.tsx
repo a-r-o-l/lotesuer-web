@@ -36,8 +36,8 @@ function SellerTable({
             <TableHead className="w-[100px]">DNI</TableHead>
             <TableHead className="w-[100px]">Telefono</TableHead>
             <TableHead className="w-[100px]">Direccion</TableHead>
-            <TableHead className="w-[100px] text-right">Amount</TableHead>
-            <TableHead className="w-[150px]">N° Maquina</TableHead>
+            <TableHead className="w-[100px]">N° Maquina</TableHead>
+            <TableHead className="w-[100px] text-right"></TableHead>
           </TableRow>
         </TableHeader>
       </Table>
