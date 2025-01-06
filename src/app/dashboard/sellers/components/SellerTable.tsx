@@ -3,6 +3,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
@@ -21,39 +22,46 @@ function SellerTable({
   onOpenAlert: (sellerId?: string) => void;
 }) {
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableCell>N° Vendedor</TableCell>
-          <TableCell>Nombre</TableCell>
-          <TableCell>Apellido</TableCell>
-          <TableCell>Dni</TableCell>
-          <TableCell>Telefono</TableCell>
-          <TableCell>Direccion</TableCell>
-          <TableCell>N° Maquina</TableCell>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {sellers?.map((seller, index) => (
-          <TableRow key={index}>
-            <TableCell>{seller.sellerNumber}</TableCell>
-            <TableCell>{seller.name}</TableCell>
-            <TableCell>{seller.lastname}</TableCell>
-            <TableCell>{seller.dni}</TableCell>
-            <TableCell>{seller.phone}</TableCell>
-            <TableCell>{seller.address}</TableCell>
-            <TableCell>{seller.machineNumber}</TableCell>
-            <TableCell align="right">
-              <SellerDropDownMenu
-                seller={seller}
-                onOpenModal={onOpenModal}
-                onOpenAlert={onOpenAlert}
-              />
-            </TableCell>
+    <div className="relative w-full border rounded-lg">
+      <Table>
+        <TableHeader className="sticky top-0 z-10 bg-background border-b">
+          <TableRow>
+            <TableHead className="w-[100px]">N° Vendedor</TableHead>
+            <TableHead className="w-[100px]">Nombre</TableHead>
+            <TableHead className="w-[200px]">Apellido</TableHead>
+            <TableHead className="w-[100px]">DNI</TableHead>
+            <TableHead className="w-[100px]">Telefono</TableHead>
+            <TableHead className="w-[100px]">Direccion</TableHead>
+            <TableHead className="w-[100px] text-right">Amount</TableHead>
+            <TableHead className="w-[150px]">N° Maquina</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+      </Table>
+      <div className="max-h-[400px] overflow-auto">
+        <Table>
+          <TableBody>
+            {sellers?.map((seller) => (
+              <TableRow key={seller._id}>
+                <TableCell>{seller.sellerNumber}</TableCell>
+                <TableCell>{seller.name}</TableCell>
+                <TableCell>{seller.lastname}</TableCell>
+                <TableCell>{seller.dni}</TableCell>
+                <TableCell>{seller.phone}</TableCell>
+                <TableCell>{seller.address}</TableCell>
+                <TableCell>{seller.machineNumber}</TableCell>
+                <TableCell align="right">
+                  <SellerDropDownMenu
+                    seller={seller}
+                    onOpenModal={onOpenModal}
+                    onOpenAlert={onOpenAlert}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
   );
 }
 

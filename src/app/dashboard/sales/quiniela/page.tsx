@@ -15,8 +15,8 @@ async function page({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const date = param.date;
   const { data } = await getSaleByDate(date);
   return (
-    <div className="container mx-auto p-5 py-20">
-      <h1 className="text-3xl font-bold">Quiniela</h1>
+    <div className="container mx-auto p-5 py-5">
+      <h1 className="text-2xl font-bold">Quiniela</h1>
       <SalesCard sellers={sellers} sales={data} />
     </div>
   );
