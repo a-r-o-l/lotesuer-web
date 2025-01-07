@@ -22,7 +22,7 @@ function SellerTable({
   onOpenAlert: (sellerId?: string) => void;
 }) {
   const windowHeight = useMemo(() => {
-    return Math.floor(window.innerHeight / 2);
+    return window.innerHeight ? Math.floor(window.innerHeight / 2) : 500;
   }, []);
 
   return (

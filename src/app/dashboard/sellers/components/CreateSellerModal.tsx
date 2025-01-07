@@ -102,6 +102,14 @@ function CreateSellerModal({
               <Label className="w-28">Dirección</Label>
               <Input defaultValue={data.seller?.address} name="address" />
             </div>
+            <div className="flex gap-5 items-center">
+              <Label className="w-28">Alquiler de maquina</Label>
+              <Input
+                defaultValue={data.seller?.machineRent || 3}
+                name="machineRent"
+                type="number"
+              />
+            </div>
           </div>
           <div className="flex justify-end mt-10">
             <LoadingButton

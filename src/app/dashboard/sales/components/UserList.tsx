@@ -25,7 +25,7 @@ function UserList({
   setEditMode: (editMode: boolean) => void;
 }) {
   const windowHeight = useMemo(() => {
-    return Math.floor(window.innerHeight / 1.6);
+    return Math.floor(window.innerHeight / 1.8);
   }, []);
 
   return (

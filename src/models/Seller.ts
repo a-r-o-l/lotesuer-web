@@ -21,6 +21,7 @@ export interface ISeller extends Document {
   dni: string;
   phone: string;
   address: string;
+  machineRent: number;
   percent: IPercent;
 }
 
@@ -56,6 +57,7 @@ const SellerSchema: Schema = new Schema(
     dni: { type: String },
     phone: { type: String },
     address: { type: String },
+    machineRent: { type: Number, default: 3 },
     percent: { type: PercentSchema },
   },
   {

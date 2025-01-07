@@ -157,63 +157,70 @@ export const deleteSale = async (id: string, date: string) => {
   }
 };
 
-export const getSalesBetweenUsers = async (
+export const getSalesBetweenSellers = async (
   start: string,
   end: string,
-  user: string
+  seller: string
 ) => {
   await dbConnect();
   const query: {
-    date?: {
-      $gte: Date;
-      $lte: Date;
+    $expr?: {
+      $and: [
+        { $gte: [{ $dateFromString: { dateString: string } }, Date] },
+        { $lte: [{ $dateFromString: { dateString: string } }, Date] }
+      ];
     };
-    accountId?: string;
+    sellerId?: string;
   } = {};
   if (start && end) {
     const timeZone = "America/Argentina/Buenos_Aires";
 
     const startDate = toDate(start, { timeZone });
     const endDate = toDate(end, { timeZone });
-    endDate.setHours(23, 59, 59, 999);
+    // endDate.setHours(23, 59, 59, 999);
 
-    query.date = {
-      $gte: startDate,
-      $lte: endDate,
+    // console.log("sd -> ", startDate);
+    // console.log("ed -> ", endDate);
+
+    query.$expr = {
+      $and: [
+        { $gte: [{ $dateFromString: { dateString: "$date" } }, startDate] },
+        { $lte: [{ $dateFromString: { dateString: "$date" } }, endDate] },
+      ],
     };
   }
-  if (user && user !== "all") {
-    query.accountId = user;
+  if (seller && seller !== "all") {
+    query.sellerId = seller;
   }
-  const sales = await models.Sale.find(query).populate("accountId");
+  const sales = await models.Sale.find(query).populate("sellerId");
 
   // let allUsers = [];
-  if (user === "all" || !user) {
-    // allUsers = await models.Account.find().select("username").lean();
-    // allUsers = allUsers.map((u) => u.username);
-  }
+  // if (seller === "all" || !seller) {
+  // allUsers = await models.Account.find().select("username").lean();
+  // allUsers = allUsers.map((u) => u.username);
+  // }
 
-  const groupedSales = sales.reduce((acc, sale) => {
-    const date = new Date(sale.date).toLocaleDateString("en-US", {
-      timeZone: "UTC",
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-    const username = sale.accountId.username;
+  // const groupedSales = sales.reduce((acc, sale) => {
+  //   const date = new Date(sale.date).toLocaleDateString("en-US", {
+  //     timeZone: "UTC",
+  //     year: "numeric",
+  //     month: "2-digit",
+  //     day: "2-digit",
+  //   });
+  //   const username = sale.accountId.username;
 
-    if (!acc[date]) {
-      acc[date] = { date };
-    }
-    if (!acc[date][username]) {
-      acc[date][username] = 0;
-    }
-    acc[date][username] += sale.total;
+  //   if (!acc[date]) {
+  //     acc[date] = { date };
+  //   }
+  //   if (!acc[date][username]) {
+  //     acc[date][username] = 0;
+  //   }
+  //   acc[date][username] += sale.total;
 
-    return acc;
-  }, {});
+  //   return acc;
+  // }, {});
 
-  // if (user === "all" || !user) {
+  // if (seller === "all" || !seller) {
   //   Object.values(groupedSales).forEach((entry) => {
   //     allUsers.forEach((username) => {
   //       if (!entry[username]) {
@@ -222,8 +229,7 @@ export const getSalesBetweenUsers = async (
   //     });
   //   });
   // }
+  // const result = Object.values(groupedSales);
 
-  const result = Object.values(groupedSales);
-
-  return JSON.parse(JSON.stringify(result));
+  return JSON.parse(JSON.stringify(sales));
 };

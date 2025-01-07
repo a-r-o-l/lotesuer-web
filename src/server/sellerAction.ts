@@ -49,6 +49,7 @@ export const createSeller = async (data: FormData) => {
       phone: formData.phone,
       address: formData.address,
       machineNumber: formData.machineNumber,
+      machineRent: Number(formData.machineRent),
       percent: {},
     });
     await newSeller.save();
@@ -116,7 +117,9 @@ export const updateSeller = async (
       seller.phone = formData.phone;
       seller.address = formData.address;
       seller.machineNumber = formData.machineNumber;
+      seller.machineRent = Number(formData.machineRent);
     }
+    console.log(formData);
     await seller.save();
     revalidatePath("/dashboard/sellers");
     return {

@@ -92,7 +92,9 @@ function SaleFormCard({
         return acc + adjustedValue;
         // return acc + priceParserToInt(value);
       }, 0);
-    return priceParserToString(total - priceParserToInt(formValues?.premios));
+    return priceParserToString(
+      total - priceParserToInt(formValues?.premios) + (seller?.machineRent || 0)
+    );
   }, [formValues, seller]);
 
   const balance = useMemo(() => {

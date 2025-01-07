@@ -24,7 +24,7 @@ function UserAvatar({ user }: { user?: User }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Avatar className="w-14 h-14">
+        <Avatar className="w-12 h-12">
           <AvatarImage src={user?.imageUrl || ""} alt={user?.name} />
           <AvatarFallback>
             <User size={32} />
