@@ -1,5 +1,5 @@
 import { Toaster } from "sonner";
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import { Session } from "next-auth";
 import { UserProvider } from "@/context/UserContext";
@@ -31,7 +31,18 @@ export default async function RootLayout({
   const session: ExtendedSession | null = await auth();
   const user = session?.token?.token?.user;
 
+  const currentTime = Math.floor(Date.now() / 1000);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const expires = session?.token?.token?.exp;
+
   if (!session) {
+    redirect("/login");
+  }
+
+  if (expires && currentTime > expires) {
+    console.log("-> token expired <-");
+    await signOut();
     redirect("/login");
   }
 

@@ -2,6 +2,7 @@
 import dbConnect from "@/lib/mongoose";
 import { revalidatePath } from "next/cache";
 import models from "@/models/index";
+import { toDate } from "date-fns-tz";
 
 export const getAllSales = async () => {
   try {
@@ -154,4 +155,75 @@ export const deleteSale = async (id: string, date: string) => {
       data: null,
     };
   }
+};
+
+export const getSalesBetweenUsers = async (
+  start: string,
+  end: string,
+  user: string
+) => {
+  await dbConnect();
+  const query: {
+    date?: {
+      $gte: Date;
+      $lte: Date;
+    };
+    accountId?: string;
+  } = {};
+  if (start && end) {
+    const timeZone = "America/Argentina/Buenos_Aires";
+
+    const startDate = toDate(start, { timeZone });
+    const endDate = toDate(end, { timeZone });
+    endDate.setHours(23, 59, 59, 999);
+
+    query.date = {
+      $gte: startDate,
+      $lte: endDate,
+    };
+  }
+  if (user && user !== "all") {
+    query.accountId = user;
+  }
+  const sales = await models.Sale.find(query).populate("accountId");
+
+  // let allUsers = [];
+  if (user === "all" || !user) {
+    // allUsers = await models.Account.find().select("username").lean();
+    // allUsers = allUsers.map((u) => u.username);
+  }
+
+  const groupedSales = sales.reduce((acc, sale) => {
+    const date = new Date(sale.date).toLocaleDateString("en-US", {
+      timeZone: "UTC",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    });
+    const username = sale.accountId.username;
+
+    if (!acc[date]) {
+      acc[date] = { date };
+    }
+    if (!acc[date][username]) {
+      acc[date][username] = 0;
+    }
+    acc[date][username] += sale.total;
+
+    return acc;
+  }, {});
+
+  // if (user === "all" || !user) {
+  //   Object.values(groupedSales).forEach((entry) => {
+  //     allUsers.forEach((username) => {
+  //       if (!entry[username]) {
+  //         entry[username] = 0;
+  //       }
+  //     });
+  //   });
+  // }
+
+  const result = Object.values(groupedSales);
+
+  return JSON.parse(JSON.stringify(result));
 };

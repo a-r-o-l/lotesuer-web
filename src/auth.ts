@@ -70,6 +70,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         session.user.imageUrl = token.imageUrl;
+        session.token = token;
       }
       return session;
     },
