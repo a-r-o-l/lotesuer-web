@@ -105,7 +105,9 @@ function CreateSellerModal({
             <div className="flex gap-5 items-center">
               <Label className="w-28">Alquiler de maquina</Label>
               <Input
-                defaultValue={data.seller?.machineRent || 3}
+                defaultValue={
+                  !data.seller?.machineRent ? 0 : data.seller.machineRent
+                }
                 name="machineRent"
                 type="number"
               />
